@@ -7,8 +7,8 @@
 Vongine2d is a 2d game engine based on the Monogame framework.<br />
 
 ## Disclaimer
-This engine is made as a fun learning experience. Althoigh it aims to provide needed functionality to create a game, and perform said functionality as efficiently as possible, it does not intend to compete with other existing game engine solutions. This game engine serves more as a framework or module atop the Monogame framework.<br />
-**Use at your discretion**
+This engine is made as a fun learning experience. It aims to provide needed functionality to create a game, and perform said functionality as efficiently as possible. However it does not intend to compete with other existing game engine solutions. This game engine serves more as a framework or module atop the Monogame framework.<br />
+**Use at your own discretion**
 
 ## Planned features
 
@@ -27,3 +27,7 @@ Objects will have default overrideable events such as:
 
 ### Particle system
 Decorative system for creating particles in screen or world space.
+
+## Licensing
+This product is released under the MIT license.
+Please reference to the provided "LICENSE" file for more information.
