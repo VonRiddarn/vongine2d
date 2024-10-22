@@ -15,9 +15,9 @@ namespace vongine2d
 		public Entity[] Children => _children.ToArray();
 		public int ChildrenCount => _children.Count;
 
-		List<Tag> _tags = new List<Tag>();
-		List<Component> _components = new List<Component>();
-		List<Entity> _children = new List<Entity>();
+		protected List<Tag> _tags = new List<Tag>();
+		protected List<Component> _components = new List<Component>();
+		protected List<Entity> _children = new List<Entity>();
 
 		public override string ToString()
 		{
