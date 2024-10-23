@@ -85,9 +85,32 @@ namespace vongine2d
 			return components.ToArray();
 		}
 
-		public Component[] GetComponentsInChildren<T>()
+		public T[] GetComponentsInChildren<T>() where T : Component
 		{
-			throw new NotImplementedException();
+			// This list will still resize like crazy on bigger trees, but it shouldn't be an issue
+			List<T> components = new List<T>(_components.Count + _children.Count);
+			Stack<Entity> stack = new Stack<Entity>();
+
+			for(int i = 0; i < _children.Count; i++)
+				stack.Push(_children[i]);
+
+			while(stack.Count > 0)
+			{
+				Entity currentChild = stack.Pop();
+
+				for(int i = 0; i < currentChild.ComponentsCount; i++)
+				{
+					if(currentChild.Components[i] is T c)
+						components.Add(c);
+				}
+
+				for(int i = 0; i < currentChild.ChildrenCount; i++)
+				{
+					stack.Push(currentChild.Children[i]);
+				}
+			}
+
+			return components.ToArray();
 		}
 
 		public Component AddComponent(Component component)
