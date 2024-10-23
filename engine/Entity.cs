@@ -69,9 +69,17 @@ namespace vongine2d
 			return null;
 		}
 
-		public T[] GetComponents<T>()
+		public T[] GetComponents<T>() where T : Component
 		{
-			throw new NotImplementedException();
+			List<T> components = new List<T>(_components.Count);
+
+			for(int i = 0; i < _components.Count; i++)
+			{
+				if(_components[i] is T c)
+					components.Add(c);
+			}
+			
+			return components.ToArray();
 		}
 
 		public Component[] GetComponentsInChildren<T>()
