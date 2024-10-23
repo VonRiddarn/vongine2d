@@ -30,7 +30,10 @@ namespace vongine2d
 			throw new NotImplementedException();
 		}
 
-		public void SetActive(bool newState) => IsActive = newState;
+		public void SetActive(bool newState) 
+		{
+			IsActive = newState;
+		}
 
 		public T? GetComponent<T>() where T : Component
 		{
