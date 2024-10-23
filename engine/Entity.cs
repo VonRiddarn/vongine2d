@@ -9,7 +9,7 @@ namespace vongine2d
 		public string Name {get; private set;}
 		public Layer Layer {get; private set;}
 		public bool IsActive {get; set;}
-		public Entity Parent {get; private set;}
+		public Entity? Parent {get; private set;}
 		public Entity RootParent {get; private set;}
 		public int ComponentsCount => _components.Count;
 		public Component[] Components => _components.ToArray();
@@ -145,7 +145,7 @@ namespace vongine2d
 
 		public Entity AppendChild(Entity child)
 		{
-			throw new NotImplementedException();
+			child.ClearParent();
 		}
 
 		public Entity AppendChildren(Entity[] children)
@@ -161,6 +161,27 @@ namespace vongine2d
 		public bool CompareTags(Tag[] tags, bool matchAll)
 		{
 			throw new NotImplementedException();
+		}
+
+		public bool RemoveChild(Entity child)
+		{
+			if(!_children.Remove(child))
+				return false;
+
+			child.SetParent(null);
+			return true;
+		}
+
+		public void SetParent(Entity? newParent)
+		{
+			if(Parent == newParent)
+				return;
+
+			if(Parent != null)
+				Parent.RemoveChild(this);
+			
+			Parent = newParent;
+			newParent?.AppendChild(this);
 		}
 
 		void UpdateMetaData()
