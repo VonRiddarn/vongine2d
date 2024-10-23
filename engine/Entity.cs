@@ -11,7 +11,8 @@ namespace vongine2d
 		public bool IsActive {get; set;}
 		public Entity Parent {get; private set;}
 		public Entity RootParent {get; private set;}
-		public int ComponentCount => _components.Count;
+		public int ComponentsCount => _components.Count;
+		public Component[] Components => _components.ToArray();
 		public Entity[] Children => _children.ToArray();
 		public int ChildrenCount => _children.Count;
 
@@ -21,7 +22,7 @@ namespace vongine2d
 
 		public override string ToString()
 		{
-			return $"Object: {Name} < {Parent.Name} << {RootParent.Name}\nComponent count: {ComponentCount}";
+			return $"Object: {Name} < {Parent.Name} << {RootParent.Name}\nComponent count: {ComponentsCount}";
 		}
 
 		public Entity()
@@ -29,22 +30,46 @@ namespace vongine2d
 			throw new NotImplementedException();
 		}
 
-		public void SetActive(bool newState)
+		public void SetActive(bool newState) => IsActive = newState;
+
+		public T? GetComponent<T>() where T : Component
 		{
-			throw new NotImplementedException();
+			for(int i = 0; i < _components.Count; i++)
+			{
+				if(_components[i] is T c)
+					return c;
+			}
+			
+			return null;
 		}
 
-		public Component? GetComponent<T>()
+		public T? GetComponentInChildren<T>() where T : Component
 		{
-			throw new NotImplementedException();
+			Stack<Entity> stack = new Stack<Entity>();
+
+			for(int i = 0; i < _children.Count; i++)
+				stack.Push(_children[i]);
+
+			while(stack.Count > 0)
+			{
+				Entity currentChild = stack.Pop();
+
+				for(int i = 0; i < currentChild.ComponentsCount; i++)
+				{
+					if(currentChild.Components[i] is T c)
+						return c;
+				}
+
+				for(int i = 0; i < currentChild.ChildrenCount; i++)
+				{
+					stack.Push(currentChild.Children[i]);
+				}
+			}
+
+			return null;
 		}
 
-		public Component? GetComponentInChildren<T>()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Component[] GetComponents<T>()
+		public T[] GetComponents<T>()
 		{
 			throw new NotImplementedException();
 		}
