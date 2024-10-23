@@ -145,7 +145,7 @@ namespace vongine2d
 
 		public Entity AppendChild(Entity child)
 		{
-			child.ClearParent();
+			throw new NotImplementedException();
 		}
 
 		public Entity AppendChildren(Entity[] children)
