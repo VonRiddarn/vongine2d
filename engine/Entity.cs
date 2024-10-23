@@ -115,12 +115,32 @@ namespace vongine2d
 
 		public Component AddComponent(Component component)
 		{
-			throw new NotImplementedException();
+			_components.Add(component);
+
+			return component;
+		}
+
+		public T AddComponent<T>(T component) where T : Component 
+		{
+			_components.Add(component);
+
+			return component;
 		}
 
 		public Component[] AddComponents(Component[] components)
 		{
-			throw new NotImplementedException();
+			for(int i = 0; i < components.Length; i++)
+				_components.Add(components[i]);
+
+			return components;
+		}
+
+		public T[] AddComponents<T>(T[] components) where T : Component
+		{
+			for(int i = 0; i < components.Length; i++)
+				_components.Add(components[i]);
+
+			return components;
 		}
 
 		public Entity AppendChild(Entity child)
