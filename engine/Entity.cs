@@ -22,7 +22,7 @@ namespace vongine2d
 
 		public override string ToString()
 		{
-			return $"Object: {Name} < {Parent.Name} << {RootParent.Name}\nComponent count: {ComponentsCount}";
+			return $"Object: {Name} < {Parent?.Name} << {RootParent.Name}\nComponent count: {ComponentsCount}";
 		}
 
 		public Entity()
@@ -145,22 +145,45 @@ namespace vongine2d
 
 		public Entity AppendChild(Entity child)
 		{
-			throw new NotImplementedException();
+			child.ChangeParent(this);
+			_children.Add(child);
+			
+			return child;
 		}
 
-		public Entity AppendChildren(Entity[] children)
+		public Entity[] AppendChildren(Entity[] children)
 		{
-			throw new NotImplementedException();
+			for(int i = 0; i < children.Length; i++)
+			{
+				children[i].ChangeParent(this);
+				_children.Add(children[i]);
+			}
+
+			return children;
 		}
 
 		public bool CompareTag(Tag tag)
 		{
-			throw new NotImplementedException();
+			return _tags.Contains(tag);
 		}
 
 		public bool CompareTags(Tag[] tags, bool matchAll)
 		{
-			throw new NotImplementedException();
+			for(int i = 0; i < tags.Length; i++)
+			{
+				if(matchAll)
+				{
+					if(!_tags.Contains(tags[i]))
+						return false;
+				}
+				else
+				{
+					if(_tags.Contains(tags[i]))
+						return true;
+				}
+			}
+
+			return matchAll;
 		}
 
 		public bool RemoveChild(Entity child)
@@ -168,11 +191,11 @@ namespace vongine2d
 			if(!_children.Remove(child))
 				return false;
 
-			child.SetParent(null);
+			child.ChangeParent(null);
 			return true;
 		}
 
-		public void SetParent(Entity? newParent)
+		public void ChangeParent(Entity? newParent)
 		{
 			if(Parent == newParent)
 				return;
