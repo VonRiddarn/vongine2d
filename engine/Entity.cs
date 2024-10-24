@@ -10,7 +10,7 @@ namespace vongine2d
 		public Layer Layer {get; private set;}
 		public bool IsActive {get; set;}
 		public Entity? Parent {get; private set;}
-		public Entity RootParent {get; private set;}
+		public Entity RootParent => Parent == null ? this : Parent.RootParent; // TODO: Maybe use cahce and invalidation later for better performance?
 		public int ComponentsCount => _components.Count;
 		public Component[] Components => _components.ToArray();
 		public Entity[] Children => _children.ToArray();
@@ -143,6 +143,11 @@ namespace vongine2d
 			return components;
 		}
 
+		public void  ForceAppendChild(Entity child)
+		{
+			_children.Add(child);
+		}
+
 		public Entity AppendChild(Entity child)
 		{
 			child.ChangeParent(this);
@@ -200,11 +205,19 @@ namespace vongine2d
 			if(Parent == newParent)
 				return;
 
-			if(Parent != null)
-				Parent.RemoveChild(this);
+			Entity? ancestor = newParent;
+			while(ancestor != null)
+			{
+				if(ancestor == this)
+					throw new InvalidOperationException("Cannot set entity as its own parent or ancestor!");
+
+				ancestor = ancestor.Parent;
+			}
+
+			Parent?.RemoveChild(this);
 			
 			Parent = newParent;
-			newParent?.AppendChild(this);
+			newParent?.ForceAppendChild(this);
 		}
 
 		void UpdateMetaData()
