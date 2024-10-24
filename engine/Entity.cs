@@ -143,16 +143,20 @@ namespace vongine2d
 			return components;
 		}
 
-		public void  ForceAppendChild(Entity child)
-		{
-			_children.Add(child);
-		}
+		/// <summary>
+		/// Appends a child to the entity without performing safety checks or relationship validation.
+		/// </summary>
+		/// <remarks>
+		/// This method is intended for internal use within the framework and should not be called directly 
+		/// by external users of the API. It bypasses the usual checks in <see cref="AppendChild(Entity)"/> 
+		/// and can cause inconsistent entity hierarchy states if misused.
+		/// </remarks>
+		/// <param name="child">The child entity to append.</param>
+		private void UnsafeAppendChild(Entity child) => _children.Add(child);
 
 		public Entity AppendChild(Entity child)
 		{
 			child.ChangeParent(this);
-			_children.Add(child);
-			
 			return child;
 		}
 
@@ -215,9 +219,8 @@ namespace vongine2d
 			}
 
 			Parent?.RemoveChild(this);
-			
 			Parent = newParent;
-			newParent?.ForceAppendChild(this);
+			newParent?.UnsafeAppendChild(this);
 		}
 
 		void UpdateMetaData()
