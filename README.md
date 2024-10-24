@@ -12,7 +12,7 @@ This engine is made as a fun learning experience. It aims to provide needed func
 
 ## Planned features
 
-### Object - Componment approach
+### Entity - Component approach
 All objects exist in game space and run logic on ticks.
 An object could be empty or contain components that changes the objects behaviour, such as: Transform, Physics, Collider etc...
 
@@ -27,6 +27,16 @@ Objects will have default overrideable events such as:
 
 ### Particle system
 Decorative system for creating particles in screen or world space.
+
+### Scripting compatibility
+User created C# scipts that are initialized on runtime and integrate with the engine seamlessly.
+
+### Integrated development environment
+A full fledged IDE complete with:
+* Object hierarchies
+* Scene management
+* Component editing
+* Visual state representations
 
 ## Licensing
 This product is released under the MIT license.
