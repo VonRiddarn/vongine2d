@@ -1,3 +1,6 @@
+# Project is paused
+This project is paused and not currently worked on due to other commitments.
+
 <p align="center">
   <img src="repo/logo.png" alt="Vongine 2d logo"/>
 </p>
